@@ -5,10 +5,12 @@
 
 std::unordered_map<std::string, int> table_c;
 std::unordered_map<int, std::string> table_d;
-std::string first_input_char, next_input_char, translation, char_to_str, output_str;
 
+std::string first_input_char, next_input_char, translation, char_to_str, output_str;
 std::vector<int> output_code;
+
 int code = 256;
+int count = 256;
 
 bool lzw(std::string input_data)
 {
@@ -30,7 +32,7 @@ bool lzw(std::string input_data)
 		if (i != input_data.length() - 1)
 			next_input_char += input_data[i + 1];
 		if (table_c.find(first_input_char + next_input_char) != table_c.end()) {
-			first_input_char = first_input_char + next_input_char;
+			first_input_char += next_input_char;
 		}
 		else {
 			output_code.push_back(table_c[first_input_char]);
@@ -56,12 +58,12 @@ bool lzw(std::string input_data)
 	next_input_char = "";
 	next_input_char += translation[0];
 	output_str += translation;
-	int count = 256;
+	
 	for (int i = 0; i < output_code.size() - 1; i++) {
 		n = output_code[i + 1];
 		if (table_d.find(n) == table_d.end()) {
 			translation = table_d[old];
-			translation = translation + next_input_char;
+			translation += next_input_char;
 		}
 		else {
 			translation = table_d[n];
@@ -69,11 +71,12 @@ bool lzw(std::string input_data)
 		output_str += translation;
 		next_input_char = "";
 		next_input_char += translation[0];
-		table_d[count] = table_d[old] + next_input_char;
+		table_d[count] += next_input_char;
 		count++;
 		old = n;
 	}
 
+	//std::cout << "User input:" <<input_data << "\nOutput:    " << output_str << std::endl;
 	return (input_data == output_str);
 }
 
