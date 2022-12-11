@@ -1,77 +1,145 @@
 ﻿#include <iostream>
-#include <map>
+#include <vector>
 #include <string>
+#include <set>
 
-#define SIZE_DICTIONARY_BUFFER 9
-#define SIZE_LOOK_AHEAD_BUFFER 5
+#define SIZE_DICTIONARY 9
+#define SIZE_BUFFER 5
 
-using namespace std;
+struct code {
+	char key;
+	int offset;
+	int length;
+	int type;
+};
 
-char dictionary_buffer[SIZE_DICTIONARY_BUFFER];
-char look_ahead_buffer[SIZE_LOOK_AHEAD_BUFFER];
-char d[1];
+char dictionary[SIZE_DICTIONARY];
+char buffer[SIZE_BUFFER];
 
-map<int, char> code;
+std::vector<code> codes;
 
-void Init(string text) 
+void lzss_move(char sym)
 {
-	if (text.size() > SIZE_LOOK_AHEAD_BUFFER) {
-		for (int i = 0; i < 5; i++) {
-			look_ahead_buffer[i] = text[i];
-		}
+	for (int i = 0; i < SIZE_DICTIONARY - 1; i++)
+	{
+		dictionary[i] = dictionary[i + 1];
+	}
+	dictionary[SIZE_DICTIONARY - 1] = buffer[0];
+	for (int i = 0; i < SIZE_BUFFER - 1; i++)
+	{
+		buffer[i] = buffer[i + 1];
+	}
+
+	buffer[SIZE_BUFFER - 1] = sym;
+}
+
+void lzss_init(std::string text)
+{
+	for (int i = 0; i < 5; i++)
+	{
+		buffer[i] = text[i];
 	}
 }
 
-void Move(char sym)
+void add_codes(char key, int offset, int length, int type)
 {
-	for (int i_look_ahead_buffer = 0; i_look_ahead_buffer <= SIZE_LOOK_AHEAD_BUFFER; i_look_ahead_buffer++) {
-		
-		if (i_look_ahead_buffer == 0) {
-			
-			for (int i = 7; i > 0; i--) {
-				dictionary_buffer[i] = dictionary_buffer[i + 1];
-			}
-			dictionary_buffer[8] = look_ahead_buffer[0];
-			
-		}
-		else {
-			look_ahead_buffer[i_look_ahead_buffer - 1] = look_ahead_buffer[i_look_ahead_buffer];
-			
-		}
-		
+	code code;
+	code.key = key;
+	code.offset = offset;
+	code.length = length;
+	code.type = type;
+	codes.push_back(code);
+}
+
+void print_codes()
+{
+	std::set<char> word;
+	bool f = false;
+	std::cout << "CODES: ";
+	for (auto& k : codes)
+	{
+		if(k.key != ' ')
+			word.insert(k.key);
 	}
-	look_ahead_buffer[4] = sym;
+	for (char w : word) {
+		if(w != 0)
+			std::cout << w << ", ";
+	}
+	
 	
 }
 
-void Encode(string text) 
+void search_in_dictionary()
 {
-	Init(text);
-	for (int i = 5; i < text.size(); i++) {
-		
-		for (int i_dictionary_buffer = 0; i_dictionary_buffer < SIZE_DICTIONARY_BUFFER; i_dictionary_buffer++) {
-			if (dictionary_buffer[i_dictionary_buffer] == text[i]) {
-				code.insert(make_pair(i_dictionary_buffer, text[i]));
-				break;
-			}
-				
-		}
-		if (look_ahead_buffer[0] == text[i]) {
-			code.insert(make_pair(0, text[i]));
+	int check = 0;
+	for (int i = SIZE_DICTIONARY; i > 0; i--) {
+		if (dictionary[i] == buffer[0])
+		{
+			add_codes(buffer[0], i, 1, 1);
+			check++;
 			break;
 		}
-
-		Move(text[i]);
 	}
-
+	if(check == 0)
+		add_codes(buffer[0], 0, 0, 0);
 }
 
+void lzss_encode(std::string text)
+{
+	std::cout << "ENCODE" << std::endl;
+	std::cout << "TEXT: " << text << std::endl;
+	std::string::size_type sz = sizeof(text);
+	std::cout << "SIZE: " << sz << std::endl;
+	lzss_init(text);
+	int i = 5;
+	bool f = true;
+	while (f)
+	{
+		if (buffer[0] != 0 && buffer[1] == 0 && buffer[2] == 0)
+			f = false;
+		search_in_dictionary();
 
-int main() {
+		if(i > text.size())
+			lzss_move(0);
+		else 
+			lzss_move(text[i]);	
 
-	Encode("qwerty12345");
+		i++;
+	}
 	
-	cout << "qwerty12345" << endl;
-	cout << look_ahead_buffer;
+}
+
+void lzss_decode()
+{
+	for (int k = 0; k < SIZE_DICTIONARY; k++) 
+	{
+		dictionary[k] = 0;
+	}
+	int i = 0;
+	std::cout << std::endl;
+	for (auto& c : codes) {
+		
+		if (c.type == 0) {
+			std::cout << c.key;
+			dictionary[8] = c.key;
+		}
+		if (c.type == 1) {
+			std::cout << dictionary[c.offset - 1];
+			dictionary[8] = dictionary[c.offset - 1];
+		}
+		for (int k = 0; k < SIZE_DICTIONARY - 1; k++) {
+			dictionary[k] = dictionary[k + 1];
+		}
+		i++;
+	}
+}
+
+int main() 
+{
+	std::string text = "rustam huesos i ebal ego rot";
+	
+	lzss_encode(text);	
+	print_codes();
+	lzss_decode();
 	return 0;
 }
