@@ -1,8 +1,0 @@
-﻿  arith_code_Stepura.cpp
-C:\Users\мария\Desktop\study 3\c++\dz\arith_code_Stepura\arith_code_Stepura\arith_code_Stepura.cpp(99,31): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-  main.cpp
-  Создание кода...
-main.obj : error LNK2019: ссылка на неразрешенный внешний символ "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl arith_cod(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > &)" (?arith_cod@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEAV12@@Z) в функции main.
-    Указание на символы, которые определены и могут подойти:
-      "class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl arith_cod(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?arith_cod@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@Z)
-C:\Users\мария\Desktop\study 3\c++\dz\arith_code_Stepura\x64\Debug\arith_code_Stepura.exe : fatal error LNK1120: неразрешенных внешних элементов: 1
