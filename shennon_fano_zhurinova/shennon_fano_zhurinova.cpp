@@ -128,7 +128,6 @@ string shennon_fano(string& text)
         }
     }
 
-    // Input probability of symbols 
     for (i = 0; i < n; i++) {
         p[i].pro = frequencies[i];
         total = total + p[i].pro;
@@ -154,10 +153,4 @@ string shennon_fano(string& text)
     }
 
     return str;
-}
-
-void main()
-{
-    string str = "sxdcfvgbhnjbhvgcfxdzxfcyghuijokjnb";
-    shennon_fano(str);
 }
