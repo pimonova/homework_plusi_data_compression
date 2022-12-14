@@ -144,7 +144,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Datasets.h" />
-    <ClInclude Include="Header_algorithms.h" />
     <ClInclude Include="Participants.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
