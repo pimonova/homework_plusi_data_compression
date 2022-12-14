@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <set>
+#include "LZSS.h"
 
 #define SIZE_DICTIONARY 9
 #define SIZE_BUFFER 5
@@ -68,7 +69,7 @@ void search_in_dictionary()
 		add_codes(buffer[0], 0, 0, 0);
 }
 
-std::string lzss_encode(std::string text)
+std::string Mustafaev_lzss_encode(std::string text)
 {
 	lzss_init(text);
 	int i = 5;
@@ -101,7 +102,7 @@ std::string lzss_encode(std::string text)
 	return result;
 }
 
-std::string lzss_decode(std::string text)
+std::string Mustafaev_lzss_decode(std::string text)
 {
 	codes.clear();
 	int i = 0;
@@ -141,11 +142,3 @@ std::string lzss_decode(std::string text)
 	return result;
 }
 
-int main() 
-{
-	std::string result_encode = lzss_encode("hfhejfkslkf");
-	std::cout << "ENCODE: " << result_encode << std::endl;
-	std::string reuslt_decode = lzss_decode(result_encode);
-	std::cout << "DECODE: " << reuslt_decode << std::endl;
-	return 0;
-}
