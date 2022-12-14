@@ -7,7 +7,7 @@
 #include <chrono>
 #include <string>
 #include <vector>
-#include "shennon_fano_zhurinova.h"
+#include "Header.h"
 #include "arith_Stepura.h"
 #include "arith_code_function_Stepura.h"
 #include "LZSS.h"
@@ -38,7 +38,7 @@ vector<string> toASCII(string data)
     return codesASCII;
 }
 
-using participant = string(*)(string&);
+using participant = string(*)(const string&);
 
 void run(string methodName, participant p, string data)
 {
