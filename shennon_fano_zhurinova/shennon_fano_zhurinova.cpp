@@ -9,8 +9,6 @@
 
 using namespace std;
 
-node p[100000];
-
 void shannon(int l, int h, node p[])
 {
     float pack1 = 0, pack2 = 0, diff1 = 0, diff2 = 0;
@@ -78,6 +76,7 @@ void sort_by_probability(int n, node p[])
 
 string shennon_fano(string& text)
 {
+    node p[100000];
     int n, i, j = 0;
     int total = 0;
     vector <char> abc;
