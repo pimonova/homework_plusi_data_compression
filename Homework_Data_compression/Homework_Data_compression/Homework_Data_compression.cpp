@@ -7,9 +7,10 @@
 #include <chrono>
 #include <string>
 #include <vector>
-#include "zhurinova_shannon_fanoo.h"
+#include "shennon_fano_zhurinova.h"
 #include "arith_Stepura.h"
 #include "arith_code_function_Stepura.h"
+#include "LZSS.h"
 
 
 using namespace std;
@@ -77,7 +78,9 @@ int main()
 
     run("Shannon - Fano", shennon_fano, stringData);
 
-    run("Arith", arith_cod, stringData);
+    run("Arithmetic coding", arith_cod, stringData);
+
+    run("LZSS", Mustafaev_lzss_encode, stringData);
 }
 
  
