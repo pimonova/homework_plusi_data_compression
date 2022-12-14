@@ -80,7 +80,7 @@ void add_codes(std::vector<char> keys, int offset, int length, int prefix)
 	codes.push_back(code);
 }
 
-std::string Mustafaev_lzss_encode(std::string& text)
+std::string Mustafaev_lzss_encode(const std::string& text)
 {
 	lzss_init(text);
 	int i = 5;
