@@ -74,7 +74,7 @@ void sort_by_probability(int n, node p[])
     }
 }
 
-string shennon_fano(string& text)
+string shennon_fano(const string& text)
 {
     node p[100000];
     int n, i, j = 0;
