@@ -151,60 +151,60 @@ std::string Mustafaev_lzss_encode(std::string text)
 	return result;
 }
 
-std::string Mustafaev_lzss_decode(std::string text)
-{
-	codes.clear();
-	int i = 0;
-	while (i < text.size() - 3) {
-		if (text[i] == '(') {
-			if (text[i + 1] == '0') {
-				std::vector<char> key;
-				key.push_back(text[i + 3]);
-				add_codes(key, 0, 0, 0);
-			}
-			if (text[i + 1] != '0') {
-				std::vector<char> key;
-				key.push_back(' ');
-				add_codes(key, text[i + 1] - 49, text[i + 3] - 48, 1);
-			}
-		}
-
-		i++;
-	}
-	std::string result = "";
-	for (int k = 0; k < SIZE_DICTIONARY; k++) 
-	{
-		dictionary[k] = 0;
-	}
-	i = 0;
-	for (auto& c : codes) {
-		
-		if (c.prefix == 0) {
-			result += c.keys[0][0];
-			for (int k = 0; k < SIZE_DICTIONARY - 1; k++) {
-				dictionary[k] = dictionary[k + 1];
-			}
-			dictionary[8] = c.keys[0][0];
-		}
-		if (c.prefix == 1) {
-			std::vector<char> bu;
-			for (int j = c.offset; j < c.length; j++) {
-				result += dictionary[j];
-				bu.push_back(dictionary[j]);
-		
-			}
-			for (int q = 0; q < bu.size(); q++) {
-				for (int k = 0; k < SIZE_DICTIONARY - 1; k++) {
-					dictionary[k] = dictionary[k + 1];
-				}
-				dictionary[8] = bu[q];
-			}
-			bu.clear();
-		}
-		
-		/*dictionary[8] = '0';*/
-		i++;
-	}
-	return result;
-}
+//std::string Mustafaev_lzss_decode(std::string text)
+//{
+//	codes.clear();
+//	int i = 0;
+//	while (i < text.size() - 3) {
+//		if (text[i] == '(') {
+//			if (text[i + 1] == '0') {
+//				std::vector<char> key;
+//				key.push_back(text[i + 3]);
+//				add_codes(key, 0, 0, 0);
+//			}
+//			if (text[i + 1] != '0') {
+//				std::vector<char> key;
+//				key.push_back(' ');
+//				add_codes(key, text[i + 1] - 49, text[i + 3] - 48, 1);
+//			}
+//		}
+//
+//		i++;
+//	}
+//	std::string result = "";
+//	for (int k = 0; k < SIZE_DICTIONARY; k++) 
+//	{
+//		dictionary[k] = 0;
+//	}
+//	i = 0;
+//	for (auto& c : codes) {
+//		
+//		if (c.prefix == 0) {
+//			result += c.keys[0][0];
+//			for (int k = 0; k < SIZE_DICTIONARY - 1; k++) {
+//				dictionary[k] = dictionary[k + 1];
+//			}
+//			dictionary[8] = c.keys[0][0];
+//		}
+//		if (c.prefix == 1) {
+//			std::vector<char> bu;
+//			for (int j = c.offset; j < c.length; j++) {
+//				result += dictionary[j];
+//				bu.push_back(dictionary[j]);
+//		
+//			}
+//			for (int q = 0; q < bu.size(); q++) {
+//				for (int k = 0; k < SIZE_DICTIONARY - 1; k++) {
+//					dictionary[k] = dictionary[k + 1];
+//				}
+//				dictionary[8] = bu[q];
+//			}
+//			bu.clear();
+//		}
+//		
+//		/*dictionary[8] = '0';*/
+//		i++;
+//	}
+//	return result;
+//}
 
