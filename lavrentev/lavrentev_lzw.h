@@ -1,4 +1,4 @@
 #include <iostream>
 #include <string>
 
-bool lzw(std::string input_data);
+std::string Lavrentev_LZW(std::string input_data);
