@@ -7,11 +7,12 @@
 #include <chrono>
 #include <string>
 #include <vector>
-#include "Header.h"
-#include "arith_Stepura.h"
-#include "arith_code_function_Stepura.h"
-#include "LZSS.h"
+// #include "Header.h"
+// #include "arith_Stepura.h"
+// #include "arith_code_function_Stepura.h"
+// #include "LZSS.h"
 
+#include "lavrentev_lzw.h"
 
 using namespace std;
 
@@ -22,7 +23,7 @@ string binary(uint32_t x)
     {
         s.push_back('0' + (x & 1));
     } while (x >>= 1);
-    reverse(s.begin(), s.end());
+    //reverse(s.begin(), s.end());
     return s;
 }
 
@@ -76,11 +77,13 @@ int main()
     getCorrect(datasetSize);
     string stringData = createDatatset(datasetSize);
 
-    run("Shannon - Fano", shennon_fano, stringData);
+    //run("Shannon - Fano", shennon_fano, stringData);
 
-    run("Arithmetic coding", arith_cod, stringData);
+    //run("Arithmetic coding", arith_cod, stringData);
 
-    run("LZSS", Mustafaev_lzss_encode, stringData);
+    //run("LZSS", Mustafaev_lzss_encode, stringData);
+
+    run("LZW", Lavrentev_LZW, stringData);
 }
 
  
